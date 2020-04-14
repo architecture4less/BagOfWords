@@ -1,0 +1,18 @@
+This is a sample from an old, uncopywritten, book on sports
+This file is to be used for Python, Java, and Scala labs for text analysis
+
+It is hoped you have an understanding of discrete mathematics and proability theory but not required Understanding recursion and regular expressions will be required for in-depth text analysis using Natural Language Processing Also the use of graphing algorithms data structures and trees will be taken as a given in the NLP courses
+
+However human nature seems to be out of sight is out of mind So use this to practice your programming skills
+
+Soccer is a team copetition in which two teams attempt to kick a rounded ball down a field and score a goal by kicking it into a net the size of about three people Guarding this goal is a goalee and he is the only soccer player who can use his hands The field is a grass field about a 1000 yards long and only certain players may run the length of that field The center or shooter can but guards must stay on their teams side of the field during play Internationally soccer or football ranks as one of the most watched sports of all time and the world cup as the most watched sporting event besides the Olympics
+
+This is opposed to football or football American which is an American sport involving an elongated ball Where the objective is to carry or throw the ball over a similar sized field but then score by simply entering the goal zone a act called a Touchdown You may also score by a kicker kicking the football between the two posts of the tuning fork like goal which results in a field goal and is worth less points For international people this type of football recalls Rugby the sport on which it is based
+
+basketball is a team competitive sport in which two teams of five active players each try to score points against one another by throwing a ball through a 10 foot high hoop under organized rules basketball is one of the most popular and widely viewed sports in the court 
+
+the purpose of the game is to score points these points are scored by passing the ball through the basket from above the team with more points at the end of the game wins the ball can be advanced on the court by bouncing it dribbling or passing the ball between teammates disruptive physical contact fouls is not permitted it can even lead to opportunities for one team to score more points and there are restrictions on how the ball result be handled violations 
+
+through time the sport of basketball has developed to involve common techniques of shooting passing and dribbling the ball as well as players positions and offensive and defensive structures while competitive basketball is carefully regulated numerous variations of basketball has developed for casual play in some countries basketball is also a popular spectator sport 
+
+while competitive basketball is a highly popular but primarily indoor sport played on a basketball court less regulated variations have become exceedingly popular as an outdoor sport among both inner city and rural groups this type of ball game is becoming more popular as time goes on and will likely continue to be a primary sport in america

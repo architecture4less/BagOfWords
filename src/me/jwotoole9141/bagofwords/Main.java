@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Tests {@link BagOfWords} with the text file {@code basketball_words_only.txt}
+ * Tests {@link BagOfWords} with the text file {@code sports.txt}
  *
  * @author Jared O'Toole
  */
@@ -25,10 +26,12 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Path words = Paths.get("basketball_words_only.txt");
-        BagOfWords bag = new BagOfWords(2);
+        Path words = Paths.get("sports.txt");  // Paths.get("basketball_words_only.txt");
+        Set<String> stopWords = Set.of("the", "a", "in", "it", "be", "by", "of", "if");
+
+        BagOfWords bag = new BagOfWords(2, stopWords);
         try {
-            bag.loadFrom(words);
+            bag.loadFrom(words, 3);
             System.out.println("\nLoaded the bag of words! ("
                     + bag.getOrder() + "-gram / "
                     + bag.sizeUnique() + " unique / "

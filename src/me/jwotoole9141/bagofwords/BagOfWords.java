@@ -1,6 +1,5 @@
 package me.jwotoole9141.bagofwords;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,10 +24,6 @@ public class BagOfWords {
     private Map<String, Integer> bagByAmount;
     private int sizeUnique;
     private int sizeTotal;
-
-    public BagOfWords() {
-        this(1, null);
-    }
 
     public BagOfWords(int sequenceLen) {
         this(sequenceLen, null);
@@ -62,50 +57,37 @@ public class BagOfWords {
      * word that are outside the regex [a-zA-Z0-9-_] are ignored.
      * Spaces and blank words are also ignored.
      *
-     * @param textFile a plain text file
+     * @param textFile  a plain text file
+     * @param skipLines the number of file header lines to skip
      * @throws IOException the file could not be found or read
      */
-    public void loadFrom(Path textFile) throws IOException {
+    public void loadFrom(Path textFile, int skipLines) throws IOException {
 
-        try (BufferedReader reader = Files.newBufferedReader(textFile)) {
+        // the map reduce split step
+        List<String> words = Files.lines(textFile)
+                .skip(skipLines)
+                .map(l -> l.trim().toLowerCase().split("\\s+"))
+                .flatMap(Arrays::stream)
+                .map(w -> w.replaceAll("[^a-zA-Z0-9-_]", ""))
+                .filter(w -> !w.isBlank() && !stopWords.contains(w))
+                .collect(Collectors.toList());
 
-            bagByWord = new TreeMap<>(); // tree map retains key order (faster inserts?)
-
-            String line;
-            List<String> allWords = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-
-                for (String word : line.trim().replaceAll("[^a-zA-Z0-9-_]]", "").split("\\s")) {
-                    if (!stopWords.contains(word) && !word.isBlank()) {
-                        allWords.add(word.toLowerCase());
-                    }
-                }
-            }
-            if (allWords.size() <= order) {
-                bagByWord.put(String.join(" ", allWords), 1);
-            }
-            else {
-                for (int i = 0; i < allWords.size() + 1 - order; i++) {
-                    List<String> sequence = new ArrayList<>();
-                    for (int t = 0; t < order; t++) {
-                        sequence.add(allWords.get(i + t));
-                    }
-                    bagByWord.merge(String.join(" ", sequence), 1, Integer::sum);
-                }
-            }
-
-            bagByAmount = bagByWord.entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            Map.Entry::getValue,
-                            (a, b) -> a,
-                            LinkedHashMap::new // linked hash map retains sort order (but also sorts faster?)
-                    ));
-
-            sizeUnique = bagByWord.keySet().size();
-            sizeTotal = bagByAmount.values().stream().mapToInt(Integer::intValue).sum();
+        // the map reduce shuffle and reduce steps
+        bagByWord = new TreeMap<>();
+        for (int i = 0; i <= words.size() - order; i++) {
+            bagByWord.merge(String.join(" ", words.subList(i, i + order)), 1, Integer::sum);
         }
+
+        bagByAmount = bagByWord.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> a,
+                        LinkedHashMap::new));
+
+        sizeUnique = bagByWord.keySet().size();
+        sizeTotal = bagByAmount.values().stream().mapToInt(Integer::intValue).sum();
     }
 
     /**
